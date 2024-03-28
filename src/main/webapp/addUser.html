@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form class="form">
+    <label>Имя:
+        <input type="text" name="name"><br/>
+    </label>
+    <label>Фамилия:
+        <input type="text" name="surname"><br/>
+    </label>
+    <label>Зарплата:
+        <input type="text" name="salary"><br/>
+    </label>
+    <button type="submit">Создать</button>
+</form>
+
+<script>
+    const form = document.querySelector('.form')
+    form.addEventListener('submit', event => {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData);
+
+        fetch('http://localhost:8080/NewServlet_war_exploded/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(res => res.json()).then(data => {
+            form.innerHTML = JSON.stringify(data);
+        })
+    })
+</script>
+
+<a href="index.jsp">Домой</a>
+</body>
+</html>
